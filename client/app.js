@@ -1,3 +1,6 @@
+// SOCKET
+const socket = io();
+
 // referencje
 const loginForm = document.getElementById('welcome-form');
 const messagesSection = document.getElementById('messages-section');
@@ -8,6 +11,11 @@ const messageContentInput = document.getElementById('message-content');
 
 // zmienna globalna
 let userName = '';
+
+// NASŁUCHIWANIE WIADOMOŚCI
+socket.on('message', ({ author, content }) => {
+  addMessage(author, content);
+});
 
 // LOGIN
 loginForm.addEventListener('submit', login);
@@ -24,6 +32,9 @@ function login(e) {
 
   loginForm.classList.remove('show');
   messagesSection.classList.add('show');
+
+  // INFORMUJ SERWER
+  socket.emit('join', userName);
 }
 
 // WYSYŁANIE WIADOMOŚCI
@@ -37,12 +48,20 @@ function sendMessage(e) {
     return;
   }
 
-  addMessage(userName, messageContentInput.value);
+  const message = {
+    author: userName,
+    content: messageContentInput.value
+  };
+
+  addMessage(message.author, message.content);
+
+  // WYŚLIJ DO SERWERA
+  socket.emit('message', message);
 
   messageContentInput.value = '';
 }
 
-// DODAWANIE WIADOMOŚCI DO HTML
+// DODAWANIE WIADOMOŚCI
 function addMessage(author, content) {
   const message = document.createElement('li');
 
@@ -56,7 +75,7 @@ function addMessage(author, content) {
   message.innerHTML = `
     <h3 class="message__author">${author === userName ? 'You' : author}</h3>
     <div class="message__content">
-      ${content}
+      ${author === 'Chat Bot' ? `<i>${content}</i>` : content}
     </div>
   `;
 
