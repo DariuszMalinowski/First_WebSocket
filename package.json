@@ -1,0 +1,28 @@
+{
+  "name": "first_websocket",
+  "version": "1.0.0",
+  "description": "",
+  "homepage": "https://github.com/DariuszMalinowski/First_WebSocket#readme",
+  "bugs": {
+    "url": "https://github.com/DariuszMalinowski/First_WebSocket/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DariuszMalinowski/First_WebSocket.git"
+  },
+  "license": "MIT",
+  "author": "Malina",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js",
+    "dev": "nodemon server.js"
+  },
+  "dependencies": {
+    "express": "^5.2.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.14"
+  }
+}
